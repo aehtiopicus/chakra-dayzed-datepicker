@@ -1,5 +1,5 @@
 {
-  "version": "0.2.8",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -42,7 +42,7 @@
   "jest": {
     "testEnvironment": "jsdom"
   },
-  "name": "chakra-dayzed-datepicker",
+  "name": "aeht-chakra-dayzed-datepicker",
   "author": "aboveyunhai",
   "description": "chakra + dayzed = datepicker",
   "module": "dist/chakra-dayzed-datepicker.esm.js",

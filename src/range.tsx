@@ -1,6 +1,3 @@
-import React, { useState } from 'react';
-import { Props as DayzedHookProps } from 'dayzed';
-import { Month_Names_Short, Weekday_Names_Short } from './utils/calanderUtils';
 import {
   Flex,
   Input,
@@ -9,24 +6,28 @@ import {
   PopoverContent,
   PopoverTrigger,
   Portal,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react';
+import { format } from 'date-fns';
+import { Props as DayzedHookProps } from 'dayzed';
+import React, { useState } from 'react';
+import FocusLock from 'react-focus-lock';
 import { CalendarPanel } from './components/calendarPanel';
+import { Month_Names_Short, Weekday_Names_Short } from './utils/calanderUtils';
 import {
   CalendarConfigs,
   DatepickerConfigs,
   DatepickerProps,
   OnDateSelected,
-  PropsConfigs,
+  PropsConfigs
 } from './utils/commonTypes';
-import { format } from 'date-fns';
-import FocusLock from 'react-focus-lock';
 
 interface RangeCalendarPanelProps {
   dayzedHookProps: DayzedHookProps;
   configs: CalendarConfigs;
   propsConfigs?: PropsConfigs;
   selected?: Date | Date[];
+  disabledDates?: Set<number>;
 }
 
 export const RangeCalendarPanel: React.FC<RangeCalendarPanelProps> = ({
@@ -34,6 +35,7 @@ export const RangeCalendarPanel: React.FC<RangeCalendarPanelProps> = ({
   configs,
   propsConfigs,
   selected,
+  disabledDates
 }) => {
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
 
@@ -74,6 +76,7 @@ export const RangeCalendarPanel: React.FC<RangeCalendarPanelProps> = ({
         configs={configs}
         propsConfigs={propsConfigs}
         isInRange={isInRange}
+        disabledDates={disabledDates}
         onMouseEnterHighlight={onMouseEnterHighlight}
       />
     </Flex>
@@ -90,6 +93,7 @@ export interface RangeDatepickerProps extends DatepickerProps {
   id?: string;
   name?: string;
   usePortal?: boolean;
+  disabledDates?: Set<number>;
 }
 
 const DefaultConfigs: CalendarConfigs = {
@@ -107,6 +111,7 @@ export const RangeDatepicker: React.FC<RangeDatepickerProps> = ({
   usePortal,
   defaultIsOpen = false,
   closeOnSelect = true,
+  disabledDates,
   ...props
 }) => {
   const { selectedDates, minDate, maxDate, onDateChange, disabled } = props;
@@ -214,6 +219,7 @@ export const RangeDatepicker: React.FC<RangeDatepickerProps> = ({
                 configs={calendarConfigs}
                 propsConfigs={propsConfigs}
                 selected={selectedDates}
+                disabledDates={disabledDates}
               />
             </FocusLock>
           </PopoverBody>
