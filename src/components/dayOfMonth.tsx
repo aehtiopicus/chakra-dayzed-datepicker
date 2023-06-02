@@ -33,7 +33,8 @@ export const DayOfMonth: React.FC<DayOfMonthProps> = ({
     selectedBtnProps,
     todayBtnProps,
   } = propsConfigs?.dayOfMonthBtnProps || {};
-  const disabled = !selectable || disabledDates?.has(date.getTime());
+  const disabled = !selectable;
+  const userDisabled = !selectable || disabledDates?.has(date.getTime());
   const styleBtnProps: DayOfMonthBtnStyleProps = useMemo(
     () => ({
       defaultBtnProps: {
@@ -78,19 +79,20 @@ export const DayOfMonth: React.FC<DayOfMonthProps> = ({
     }),
     [defaultBtnProps, isInRangeBtnProps, selectedBtnProps, todayBtnProps]
   );
-
+  debugger;
   return (
     <Button
       {...getDateProps({
         dateObj,
-        disabled: disabled,
+        disabled: disabled || userDisabled,
         onMouseEnter: onMouseEnter,
       })}
-      isDisabled={disabled}
+      isDisabled={disabled || userDisabled}
       {...styleBtnProps.defaultBtnProps}
       {...(isInRange && !disabled && styleBtnProps.isInRangeBtnProps)}
       {...(selected && !disabled && styleBtnProps.selectedBtnProps)}
       {...(today && styleBtnProps.todayBtnProps)}
+      {...(userDisabled && { textDecorationLine: 'line-through' })}
     >
       {date.getDate()}
     </Button>
